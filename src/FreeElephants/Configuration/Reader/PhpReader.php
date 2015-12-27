@@ -3,13 +3,10 @@
 namespace FreeElephants\Configuration\Reader;
 
 /**
- *
  * @author samizdam
- *
  */
 class PhpReader implements ReaderInterface
 {
-
     public function readFile($filename)
     {
         return require $filename;
@@ -19,5 +16,4 @@ class PhpReader implements ReaderInterface
     {
         return eval($input);
     }
-
 }

@@ -2,18 +2,14 @@
 
 namespace FreeElephants\Configuration\Reader;
 
-
 use FreeElephants\Configuration\AbstractConfigurationUnitTestCase;
 use FreeElephants\Configuration\Exception\ArgumentException;
 
 /**
- *
  * @author samizdam
- *
  */
 class ReaderFactoryTest extends AbstractConfigurationUnitTestCase
 {
-
     public function testCreateReader()
     {
         $factory = new ReaderFactory();
@@ -26,6 +22,6 @@ class ReaderFactoryTest extends AbstractConfigurationUnitTestCase
     {
         $factory = new ReaderFactory();
         $this->setExpectedException(ArgumentException::class);
-        $factory->createReader("Foo");
+        $factory->createReader('Foo');
     }
 }

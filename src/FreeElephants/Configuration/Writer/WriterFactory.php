@@ -7,13 +7,10 @@ use FreeElephants\Configuration\FormatNameNormalizer;
 use FreeElephants\Configuration\Exception\ArgumentException;
 
 /**
- *
  * @author samizdam
- *
  */
 class WriterFactory implements FormatEnum
 {
-
     private $formatNameNormalizer;
 
     public function __construct()
@@ -22,18 +19,16 @@ class WriterFactory implements FormatEnum
     }
 
     /**
-     *
-     *
      * @param string $format
+     *
      * @throws \DomainException
+     *
      * @return WriterInterface
      */
     public function createWriter($format)
     {
-        if($this->formatNameNormalizer->isValidFormat($format))
-        {
-            switch($format)
-            {
+        if ($this->formatNameNormalizer->isValidFormat($format)) {
+            switch ($format) {
                 case self::FORMAT_JSON:
                     $writer = new JsonWriter();
                     break;
@@ -45,7 +40,7 @@ class WriterFactory implements FormatEnum
                     break;
             }
         } else {
-            throw new ArgumentException("Unsupported format. ");
+            throw new ArgumentException('Unsupported format. ');
         }
 
         return $writer;

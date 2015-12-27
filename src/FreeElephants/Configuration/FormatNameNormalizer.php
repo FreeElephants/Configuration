@@ -1,17 +1,15 @@
 <?php
+
 namespace FreeElephants\Configuration;
 
 /**
- *
  * @author samizdam
- *
  */
 class FormatNameNormalizer implements FormatEnum
 {
-
     /**
-     *
      * @param string $format
+     *
      * @return string
      */
     public function normalizeFormat($format)
@@ -20,12 +18,13 @@ class FormatNameNormalizer implements FormatEnum
         if ($normalizedFormat === 'yml') {
             $normalizedFormat = self::FORMAT_YAML;
         }
+
         return $normalizedFormat;
     }
 
     /**
-     *
      * @param string $format
+     *
      * @return bool
      */
     public function isValidFormat($format)
@@ -38,7 +37,7 @@ class FormatNameNormalizer implements FormatEnum
         return [
             self::FORMAT_JSON,
             self::FORMAT_PHP,
-            self::FORMAT_YAML
+            self::FORMAT_YAML,
         ];
     }
 }

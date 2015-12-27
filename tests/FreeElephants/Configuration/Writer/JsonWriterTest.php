@@ -5,18 +5,15 @@ namespace FreeElephants\Configuration\Writer;
 use FreeElephants\Configuration\AbstractConfigurationUnitTestCase;
 
 /**
- *
  * @author samizdam
- *
  */
 class JsonWriterTest extends AbstractConfigurationUnitTestCase
 {
-
     public function testWriteFile()
     {
         $writer = new JsonWriter();
-        $outputFilename = self::OUTPUT_PATH . "foo.json";
-        $writer->writeFile($outputFilename, ["foo" => "bar"]);
+        $outputFilename = self::OUTPUT_PATH.'foo.json';
+        $writer->writeFile($outputFilename, ['foo' => 'bar']);
         $this->assertFileExists($outputFilename);
     }
 
@@ -28,6 +25,6 @@ class JsonWriterTest extends AbstractConfigurationUnitTestCase
     "foo": "bar"
 }
 JSON
-            , $writer->toString(["foo" => "bar"]));
+            , $writer->toString(['foo' => 'bar']));
     }
 }

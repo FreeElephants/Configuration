@@ -6,13 +6,10 @@ use FreeElephants\Configuration\AbstractConfigurationUnitTestCase;
 use FreeElephants\Configuration\Exception\ArgumentException;
 
 /**
- *
  * @author samizdam
- *
  */
 class WriterFactoryTest extends AbstractConfigurationUnitTestCase
 {
-
     public function testCreateWriter()
     {
         $factory = new WriterFactory();
@@ -25,6 +22,6 @@ class WriterFactoryTest extends AbstractConfigurationUnitTestCase
     {
         $factory = new WriterFactory();
         $this->setExpectedException(ArgumentException::class);
-        $factory->createWriter("Foo");
+        $factory->createWriter('Foo');
     }
 }

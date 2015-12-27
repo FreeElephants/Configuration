@@ -3,16 +3,14 @@
 namespace FreeElephants\Configuration\Reader;
 
 /**
- *
  * @author samizdam
- *
  */
 class JsonReader implements ReaderInterface
 {
-
     public function readFile($filename)
     {
         $input = file_get_contents($filename);
+
         return $this->readString($input);
     }
 
