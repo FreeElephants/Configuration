@@ -3,6 +3,8 @@
 namespace FreeElephants\Configuration\Reader;
 
 use FreeElephants\Configuration\FormatEnum;
+use FreeElephants\Configuration\FormatNameNormalizer;
+use FreeElephants\Configuration\Exception\ArgumentException;
 
 /**
  *
@@ -11,6 +13,13 @@ use FreeElephants\Configuration\FormatEnum;
  */
 class ReaderFactory implements FormatEnum
 {
+
+    private $formatNameNormalizer;
+
+    public function __construct()
+    {
+        $this->formatNameNormalizer = new FormatNameNormalizer();
+    }
 
     /**
      *
@@ -21,19 +30,21 @@ class ReaderFactory implements FormatEnum
      */
     public function createReader($format)
     {
-        switch($format)
-        {
-            case self::FORMAT_JSON:
-                $reader = new JsonReader();
-                break;
-            case self::FORMAT_YAML:
-                $reader = new YamlReader();
-                break;
-            case self::FORMAT_PHP:
-                $reader = new PhpReader();
-                break;
-            default:
-                throw new \DomainException("Not supported format.");
+        if($this->formatNameNormalizer->isValidFormat($format)){
+            switch($format)
+            {
+                case self::FORMAT_JSON:
+                    $reader = new JsonReader();
+                    break;
+                case self::FORMAT_YAML:
+                    $reader = new YamlReader();
+                    break;
+                case self::FORMAT_PHP:
+                    $reader = new PhpReader();
+                    break;
+            }
+        } else {
+            throw new ArgumentException("Unsupported format. ");
         }
         return $reader;
     }

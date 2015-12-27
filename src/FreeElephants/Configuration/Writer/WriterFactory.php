@@ -3,6 +3,8 @@
 namespace FreeElephants\Configuration\Writer;
 
 use FreeElephants\Configuration\FormatEnum;
+use FreeElephants\Configuration\FormatNameNormalizer;
+use FreeElephants\Configuration\Exception\ArgumentException;
 
 /**
  *
@@ -11,6 +13,13 @@ use FreeElephants\Configuration\FormatEnum;
  */
 class WriterFactory implements FormatEnum
 {
+
+    private $formatNameNormalizer;
+
+    public function __construct()
+    {
+        $this->formatNameNormalizer = new FormatNameNormalizer();
+    }
 
     /**
      *
@@ -21,19 +30,22 @@ class WriterFactory implements FormatEnum
      */
     public function createWriter($format)
     {
-        switch($format)
+        if($this->formatNameNormalizer->isValidFormat($format))
         {
-            case self::FORMAT_JSON:
-                $writer = new JsonWriter();
-                break;
-            case self::FORMAT_PHP:
-                $writer = new PhpWriter();
-                break;
-            case self::FORMAT_YAML:
-                $writer = new YamlWriter();
-                break;
-            default:
-                throw new \DomainException("Not supported format. ");
+            switch($format)
+            {
+                case self::FORMAT_JSON:
+                    $writer = new JsonWriter();
+                    break;
+                case self::FORMAT_PHP:
+                    $writer = new PhpWriter();
+                    break;
+                case self::FORMAT_YAML:
+                    $writer = new YamlWriter();
+                    break;
+            }
+        } else {
+            throw new ArgumentException("Unsupported format. ");
         }
 
         return $writer;

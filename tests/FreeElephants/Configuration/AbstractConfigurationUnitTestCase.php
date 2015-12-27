@@ -27,6 +27,18 @@ abstract class AbstractConfigurationUnitTestCase extends \PHPUnit_Framework_Test
      */
     const OUTPUT_PATH = __DIR__ . self::DS . "_output" . self::DS;
 
+    protected function setUp()
+    {
+        foreach(glob(self::OUTPUT_PATH . "*") as $filename){
+            if($filename === ".gitignore"){
+                continue;
+            } else {
+                unlink($filename);
+            }
+        }
+        parent::setUp();
+    }
+
     /**
      *
      * @param string $filename

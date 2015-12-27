@@ -17,7 +17,7 @@ class PhpReader implements ReaderInterface
 
     public function readString($input)
     {
-        return unserialize($input);
+        return eval($input);
     }
 
 }
