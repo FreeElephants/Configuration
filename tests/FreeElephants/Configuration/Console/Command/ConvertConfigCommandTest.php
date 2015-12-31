@@ -34,7 +34,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $this->setExpectedException(RuntimeException::class);
         $tester->execute([
             "source" => "foo.php",
-            "dist" => "foo.json"
+            "dest" => "foo.json"
         ]);
     }
 
@@ -45,7 +45,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $this->setExpectedException(RuntimeException::class);
         $tester->execute([
             "source" => self::FIXTURE_PATH . "foo.php",
-            "dist" => "foo.json",
+            "dest" => "foo.json",
             "--input-format" => "txt",
         ]);
     }
@@ -57,7 +57,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $this->setExpectedException(RuntimeException::class);
         $tester->execute([
             "source" => self::FIXTURE_PATH . "foo.php",
-            "dist" => "foo.json",
+            "dest" => "foo.json",
             "--output-format" => "txt",
         ]);
     }
@@ -70,7 +70,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $this->assertFileNotExists($outputFilename);
         $tester->execute([
             "source" => self::FIXTURE_PATH . "foo.php",
-            "dist" => $outputFilename,
+            "dest" => $outputFilename,
         ]);
         $this->assertFileExists($outputFilename);
     }
@@ -82,7 +82,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $outputFilename = self::OUTPUT_PATH . "foo.json";
         $tester->execute([
             "source" => self::FIXTURE_PATH . "foo.php",
-            "dist" => $outputFilename,
+            "dest" => $outputFilename,
             "--show-output" => true
         ]);
         $this->assertContains('"foo": "bar"', $tester->getDisplay(true));
@@ -95,7 +95,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         $outputFilename = self::OUTPUT_PATH . "foo.json";
         $tester->execute([
             "source" => self::FIXTURE_PATH . "foo.php",
-            "dist" => $outputFilename,
+            "dest" => $outputFilename,
             "--show-input" => true
         ]);
         $this->assertContains("'foo' => 'bar'", $tester->getDisplay(true));
@@ -113,7 +113,7 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
         file_put_contents($outputFilename, 'foo');
         $tester->execute([
             'source' => $inputFileName,
-            'dist'   => $outputFilename,
+            'dest'   => $outputFilename,
         ]);
         $displayOutput = $tester->getDisplay(true);
         $this->assertContains("File {$outputFilename} is overwrited. ", $displayOutput);
@@ -123,18 +123,18 @@ class ConvertConfigCommandTest extends AbstractConfigurationUnitTestCase
     {
         list($tester, $command) = $this->getConfiguredCommandTesterAndCommand();
         $inputFilename  = self::FIXTURE_PATH . 'foo.php';
-        $outputFilename = self::OUTPUT_PATH . "foo.php";
+        $outputFilename = self::OUTPUT_PATH . "foo.fake.json";
         $confirmMock = $this->getMock(QuestionHelper::class);
-        $confirmMock->method('ask')->willReturn(true);
+        $confirmMock->method('ask')->willReturn(false);
         $command->getHelperSet()->set($confirmMock, 'question');
 
-        file_put_contents($outputFilename, 'foo');
+        copy($inputFilename, $outputFilename);
         $tester->execute([
             'source' => $inputFilename,
-            'dist'   => $outputFilename,
+            'dest'   => $outputFilename,
         ]);
-        $displayOutput = $tester->getDisplay(true);
-        $this->assertFileNotEquals($inputFilename, $outputFilename);
+
+        $this->assertFileEquals($inputFilename, $outputFilename);
     }
 
     /**

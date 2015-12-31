@@ -24,7 +24,7 @@ class ConvertConfigCommand extends AbstractCommand
 {
 
     const ARGUMENT_SOURCE = "source";
-    const ARGUMENT_DIST = "dist";
+    const ARGUMENT_DEST = "dest";
 
     const OPTION_FORCE = "force";
 
@@ -39,19 +39,19 @@ class ConvertConfigCommand extends AbstractCommand
 
     public function getDefaultName()
     {
-        return "convert-config";
+        return "config:convert";
     }
 
     protected function configure()
     {
         $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, "Source config file");
-        $this->addArgument(self::ARGUMENT_DIST, InputArgument::REQUIRED, "Distance config file");
+        $this->addArgument(self::ARGUMENT_DEST, InputArgument::REQUIRED, "Distance config file");
 
         $this->addOption(self::OPTION_INPUT_FORMAT, "i", InputOption::VALUE_OPTIONAL, "Use given format for input instead file extension.");
         $this->addOption(self::OPTION_OUPUT_FORMAT, "o", InputOption::VALUE_OPTIONAL, "Use given format for output instead file extension.");
 
-        $this->addOption(self::OPTION_FORCE, "f", InputOption::VALUE_NONE, "Override existed dist file without prompt. ");
-        $this->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "Not wrtie dist file. ");
+        $this->addOption(self::OPTION_FORCE, "f", InputOption::VALUE_NONE, "Override existed dest file without prompt. ");
+        $this->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "Not wrtie dest file. ");
 
         $this->addOption(self::OPTION_SHOW_OUTPUT, 'd', InputOption::VALUE_NONE, "Show output content in console. ");
         $this->addOption(self::OPTION_SHOW_INPUT, 's', InputOption::VALUE_NONE, "Show source file content in output. ");
@@ -60,7 +60,7 @@ class ConvertConfigCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $inputFilename = $input->getArgument(self::ARGUMENT_SOURCE);
-        $outputFilename = $input->getArgument(self::ARGUMENT_DIST);
+        $outputFilename = $input->getArgument(self::ARGUMENT_DEST);
         if(!file_exists($inputFilename)){
             throw new RuntimeException("Input file not exists. ");
         }
@@ -103,20 +103,20 @@ class ConvertConfigCommand extends AbstractCommand
             $output->writeln($distData);
         }
 
+        $dryRun = $input->getOption(self::OPTION_DRY_RUN);
+        $approved = true;
         if(file_exists($outputFilename)){
             $questionHelper = $this->getHelper('question');
             /* @var $questionHelper Question */
-            $overwriteConfirm = new ConfirmationQuestion("Overwrite existing dist file?", false);
-            if(!$questionHelper->ask($input, $output, $overwriteConfirm)){
-                return;
-            } else {
+            $overwriteConfirm = new ConfirmationQuestion("Overwrite existing dest file?", false);
+            if($approved = $questionHelper->ask($input, $output, $overwriteConfirm)){
                 $output->writeln("File {$outputFilename} is overwrited. ");
             }
         }
 
-        if(!$input->getOption(self::OPTION_DRY_RUN)){
+        if($dryRun === false & $approved){
             $configWriter->writeFile($outputFilename, $sourceData);
         }
-
     }
+
 }
