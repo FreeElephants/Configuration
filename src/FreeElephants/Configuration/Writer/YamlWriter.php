@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlWriter implements WriterInterface
 {
+
     public function writeFile($filename, $data)
     {
         file_put_contents($filename, $this->toString($data));

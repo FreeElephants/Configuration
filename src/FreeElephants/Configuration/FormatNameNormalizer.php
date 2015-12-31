@@ -7,6 +7,7 @@ namespace FreeElephants\Configuration;
  */
 class FormatNameNormalizer implements FormatEnum
 {
+
     /**
      * @param string $format
      *
@@ -32,6 +33,11 @@ class FormatNameNormalizer implements FormatEnum
         return in_array($this->normalizeFormat($format), $this->getValidFormats(), true);
     }
 
+    /**
+     *
+     *
+     * @return string[]
+     */
     public function getValidFormats()
     {
         return [

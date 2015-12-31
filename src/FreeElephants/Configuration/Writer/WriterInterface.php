@@ -10,6 +10,7 @@ interface WriterInterface
     /**
      * @param string $filename
      * @param mixed  $data
+     * @return void
      */
     public function writeFile($filename, $data);
 

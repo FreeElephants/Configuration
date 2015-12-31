@@ -1,5 +1,4 @@
 <?php
-
-return [
-    'foo' => 'bar',
-];
+return array (
+  'foo' => 'bar',
+);

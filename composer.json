@@ -9,6 +9,8 @@
         }
     ],
     "require": {
+    	"free-elephants/bitmask": "1.0.0-rc",
+    	"symfony/yaml": "*",
     	"symfony/console": "*"
     },
     "require-dev": {
