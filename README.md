@@ -6,7 +6,7 @@ Based on Config component from Zend Framework.
 
 ```php
 
-php bin/config-tool.php config:convert config-source.php config-dist.yaml
+php bin/config-tool.php config:convert config-source.php config-dest.yaml
 
 ```
 

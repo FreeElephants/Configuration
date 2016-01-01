@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Command Line Script for config files convertation.
+ *
+ * @author samizdam
+ */
 require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;

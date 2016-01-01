@@ -28,4 +28,11 @@ array (
 PHP
             , $writer->toString(['foo' => 'bar']));
     }
+
+    public function testToStringWithOpenTag()
+    {
+        $writer = new PhpWriter();
+        $writer->setOptions(PhpWriter::OPTION_ADD_PHP_OPEN_TAG);
+        $this->assertContains('<?php', $writer->toString(['foo' => 'bar']));
+    }
 }

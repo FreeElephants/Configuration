@@ -5,8 +5,13 @@ namespace FreeElephants\Configuration\Writer;
 /**
  * @author samizdam
  */
-class JsonWriter implements WriterInterface
+class JsonWriter extends AbstractWriter
 {
+    public function getDefaultOptions()
+    {
+        return JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
+    }
+
     public function writeFile($filename, $data)
     {
         file_put_contents($filename, $this->toString($data));
@@ -14,9 +19,6 @@ class JsonWriter implements WriterInterface
 
     public function toString($data)
     {
-        // TODO configure options via special method
-        $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
-
-        return json_encode($data, $options);
+        return json_encode($data, $this->getOptions());
     }
 }
